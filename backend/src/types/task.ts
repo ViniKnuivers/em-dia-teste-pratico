@@ -6,8 +6,6 @@ export interface Task {
   updatedAt: Date;
 }
 
-export type TaskFilter = 'all' | 'pending' | 'completed';
-
 export interface CreateTaskInput {
   title: string;
 }

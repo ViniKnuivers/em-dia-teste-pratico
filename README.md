@@ -114,17 +114,15 @@ Estado atual:
 
 1. Implemente os métodos da `TaskModel` usando o Prisma.
 2. Faça os services receberem os parâmetros necessários e usarem a model no lugar dos mocks.
-3. Faça os controllers repassarem `params`, `body` e `query` para os services.
-4. Permita filtrar a listagem: `GET /tasks?status=all|pending|completed`.
-5. Trate os erros: título vazio → `400`; tarefa inexistente → `404`.
-6. Atualize/adicione testes em `backend/test` para o novo comportamento.
+3. Faça os controllers repassarem `params` e `body` para os services.
+4. Atualize/adicione testes em `backend/test` para o novo comportamento.
 
 ### Frontend
 
 Construa a tela conforme o Figma/referência, integrada à API:
 
 1. Criar tarefa.
-2. Listar tarefas com as abas **Todas / Pendentes / Concluídas** e seus contadores.
+2. Listar tarefas com as abas **Todas / Pendentes / Concluídas** e seus contadores (filtro feito no front-end, a partir de `GET /tasks`).
 3. Marcar/desmarcar como concluída clicando na caixa.
 4. Editar o título inline (Salvar / Cancelar).
 5. Excluir tarefa.

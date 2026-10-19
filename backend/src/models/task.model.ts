@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- remova esta linha ao implementar os métodos */
 import type { PrismaClient } from '../database/prisma.js';
-import type { CreateTaskInput, Task, TaskFilter, UpdateTaskInput } from '../types/task.js';
+import type { CreateTaskInput, Task, UpdateTaskInput } from '../types/task.js';
 
 /**
  * Acesso a dados da tabela `tasks` (ver prisma/schema.prisma).
@@ -12,13 +12,10 @@ export class TaskModel {
   constructor(private readonly prisma: PrismaClient) {}
 
   /**
-   * Lista as tarefas, das mais antigas para as mais recentes.
-   * - 'all' (padrão): todas
-   * - 'pending': apenas as não concluídas
-   * - 'completed': apenas as concluídas
+   * Lista todas as tarefas, das mais antigas para as mais recentes.
    */
-  async findAll(filter: TaskFilter = 'all'): Promise<Task[]> {
-    // return this.prisma.task.findMany({ where: ..., orderBy: { createdAt: 'asc' } });
+  async findAll(): Promise<Task[]> {
+    // return this.prisma.task.findMany({ orderBy: { createdAt: 'asc' } });
     throw new Error('Not implemented');
   }
 
