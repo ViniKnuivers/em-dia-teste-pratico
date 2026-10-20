@@ -110,6 +110,8 @@ Estado atual:
 
 ## O desafio
 
+Passo a passo detalhado em [docs/tarefas.md](docs/tarefas.md).
+
 ### Backend
 
 1. Implemente os métodos da `TaskModel` usando o Prisma.
