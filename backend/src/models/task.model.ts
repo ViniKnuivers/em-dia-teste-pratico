@@ -15,8 +15,7 @@ export class TaskModel {
    * Lista todas as tarefas, das mais antigas para as mais recentes.
    */
   async findAll(): Promise<Task[]> {
-    // return this.prisma.task.findMany({ orderBy: { createdAt: 'asc' } });
-    throw new Error('Not implemented');
+    return this.prisma.task.findMany({ orderBy: { createdAt: 'asc' } });
   }
 
   /**

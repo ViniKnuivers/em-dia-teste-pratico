@@ -1,3 +1,4 @@
+import type { TaskModel } from '../models/task.model.js';
 import type { Task } from '../types/task.js';
 
 const now = new Date('2026-10-19T09:00:00.000Z');
@@ -29,8 +30,10 @@ const mockTasks: Task[] = [
  * Ao implementar, receba os dados necessários e delegue a persistência para a TaskModel.
  */
 export class TaskService {
+  constructor(private readonly taskModel: TaskModel) {}
+
   async listTasks(): Promise<Task[]> {
-    return mockTasks;
+    return this.taskModel.findAll();
   }
 
   async createTask(): Promise<Task> {
