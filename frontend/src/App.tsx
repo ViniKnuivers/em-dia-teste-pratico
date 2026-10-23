@@ -1,13 +1,16 @@
+import Header from './components/Header';
+import Footer from './components/Footer';
+import PageHeader from './components/PageHeader';
+import PageCard from './components/PageCard';
+
 export default function App() {
   return (
     <>
-      <header className="header">
-        <span className="logo">em dia</span>
-        <span className="tagline">Menos pressa. Mais organização.</span>
-      </header>
-
+      <Header />
       <main className="container">
-        {/* Construa a tela aqui seguindo docs/referencia-ui.png e o Figma linkado no README. */}
+        <PageHeader />
+        <PageCard />
+        <Footer />
       </main>
     </>
   );
