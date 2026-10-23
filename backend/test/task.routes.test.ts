@@ -70,6 +70,16 @@ describe('rotas de tarefas', () => {
   });
 
   it('POST /tasks cria uma tarefa', async () => {
+    const fakeTaskTest = {
+      id: 1,
+      title: 'Estudar TypeScript',
+      completed: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const createSpy = vi.spyOn(TaskModel.prototype, 'create').mockResolvedValue(fakeTaskTest);
+
     const response = await app.inject({
       method: 'POST',
       url: '/tasks',
@@ -84,6 +94,8 @@ describe('rotas de tarefas', () => {
         completed: false,
       }),
     );
+
+    expect(createSpy).toHaveBeenCalledWith({ title: 'Estudar TypeScript' });
   });
 
   it('PATCH /tasks/:id edita uma tarefa', async () => {

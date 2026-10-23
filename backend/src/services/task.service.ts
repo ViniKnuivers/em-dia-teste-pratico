@@ -1,5 +1,5 @@
 import type { TaskModel } from '../models/task.model.js';
-import type { Task } from '../types/task.js';
+import type { CreateTaskInput, Task } from '../types/task.js';
 
 const now = new Date('2026-10-19T09:00:00.000Z');
 
@@ -36,8 +36,8 @@ export class TaskService {
     return this.taskModel.findAll();
   }
 
-  async createTask(): Promise<Task> {
-    return { id: 6, title: 'Nova tarefa', completed: false, createdAt: now, updatedAt: now };
+  async createTask(input: CreateTaskInput): Promise<Task> {
+    return this.taskModel.create(input);
   }
 
   async updateTask(): Promise<Task> {
