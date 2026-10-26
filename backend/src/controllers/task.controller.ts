@@ -9,8 +9,8 @@ export class TaskController {
     return this.taskService.listTasks();
   };
 
-  create = async (_request: FastifyRequest<{ Body: CreateTaskInput }>, reply: FastifyReply) => {
-    const task = await this.taskService.createTask();
+  create = async (request: FastifyRequest<{ Body: CreateTaskInput }>, reply: FastifyReply) => {
+    const task = await this.taskService.createTask(request.body);
     return reply.code(201).send(task);
   };
 

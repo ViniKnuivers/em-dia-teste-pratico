@@ -30,8 +30,7 @@ export class TaskModel {
    * Cria uma tarefa pendente com o título informado.
    */
   async create(input: CreateTaskInput): Promise<Task> {
-    // return this.prisma.task.create({ data: ... });
-    throw new Error('Not implemented');
+    return this.prisma.task.create({ data: { title: input.title } });
   }
 
   /**
