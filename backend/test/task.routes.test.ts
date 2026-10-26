@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, vi, afterEach } from 'vitest';
 import { buildApp } from '../src/app.js';
+import { TaskModel } from '../src/models/task.model.js';
 
 describe('rotas de tarefas', () => {
   let app: FastifyInstance;
@@ -14,12 +15,49 @@ describe('rotas de tarefas', () => {
     await app.close();
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('GET /tasks lista as tarefas', async () => {
+    const fakeTasks = [
+      {
+        id: 1,
+        title: 'Estudar',
+        completed: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 2,
+        title: 'Trabalhar',
+        completed: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 3,
+        title: 'Limpar a casa',
+        completed: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 4,
+        title: 'Testar a listagem',
+        completed: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ];
+
+    vi.spyOn(TaskModel.prototype, 'findAll').mockResolvedValue(fakeTasks);
+
     const response = await app.inject({ method: 'GET', url: '/tasks' });
 
     expect(response.statusCode).toBe(200);
     const tasks = response.json();
-    expect(tasks).toHaveLength(5);
+    expect(tasks).toHaveLength(4);
     for (const task of tasks) {
       expect(task).toEqual(
         expect.objectContaining({
