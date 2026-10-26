@@ -1,14 +1,11 @@
-import { useState, useEffect } from 'react';
-import { request } from '../api/client';
 import type { Task } from '../types/task';
 import TaskItem from './TaskItem';
 
-export default function PageCard() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+interface PageCardProps {
+  tasks: Task[];
+}
 
-  useEffect(() => {
-    request<Task[]>('/tasks').then((data) => setTasks(data));
-  }, []);
+export default function PageCard({ tasks }: PageCardProps) {
   return (
     <section className="card">
       <h2 className="card-title">Suas tarefas</h2>
