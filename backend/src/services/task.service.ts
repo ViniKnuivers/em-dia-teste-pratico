@@ -1,27 +1,7 @@
 import type { TaskModel } from '../models/task.model.js';
-import type { Task } from '../types/task.js';
+import type { CreateTaskInput, Task } from '../types/task.js';
 
-const now = new Date('2026-10-19T09:00:00.000Z');
-
-const mockTasks: Task[] = [
-  { id: 1, title: 'Comprar frutas e verduras', completed: false, createdAt: now, updatedAt: now },
-  {
-    id: 2,
-    title: 'Organizar a mesa de trabalho',
-    completed: false,
-    createdAt: now,
-    updatedAt: now,
-  },
-  { id: 3, title: 'Ler 10 páginas de um livro', completed: false, createdAt: now, updatedAt: now },
-  { id: 4, title: 'Regar as plantas', completed: true, createdAt: now, updatedAt: now },
-  {
-    id: 5,
-    title: 'Fazer uma caminhada de 20 minutos',
-    completed: true,
-    createdAt: now,
-    updatedAt: now,
-  },
-];
+const mockTasks: Task[] = [];
 
 /**
  * Regras de negócio das tarefas.
@@ -36,8 +16,8 @@ export class TaskService {
     return this.taskModel.findAll();
   }
 
-  async createTask(): Promise<Task> {
-    return { id: 6, title: 'Nova tarefa', completed: false, createdAt: now, updatedAt: now };
+  async createTask(input: CreateTaskInput): Promise<Task> {
+    return this.taskModel.create(input);
   }
 
   async updateTask(): Promise<Task> {

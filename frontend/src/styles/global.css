@@ -223,3 +223,58 @@ body {
   align-items: center;
   gap: 4px;
 }
+
+.new-task-input,
+.new-task-date {
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.new-task-input {
+  flex: 1;
+}
+
+.new-task-date {
+  width: 150px;
+}
+
+.new-task-input:focus,
+.new-task-date:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.new-task-form {
+  display: flex;
+  gap: 12px;
+  padding: 0 24px 24px;
+}
+
+.primary-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: var(--color-surface);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.task-estimation {
+  color: var(--color-text-muted);
+}
+
+.task-estimation--overdue {
+  color: var(--color-danger);
+}

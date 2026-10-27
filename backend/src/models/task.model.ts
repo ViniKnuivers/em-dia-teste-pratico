@@ -22,16 +22,16 @@ export class TaskModel {
    * Busca uma tarefa pelo id. Retorna `null` quando não existir.
    */
   async findById(id: number): Promise<Task | null> {
-    // return this.prisma.task.findUnique({ where: { id } });
-    throw new Error('Not implemented');
+    return this.prisma.task.findUnique({ where: { id } });
   }
 
   /**
    * Cria uma tarefa pendente com o título informado.
    */
   async create(input: CreateTaskInput): Promise<Task> {
-    // return this.prisma.task.create({ data: ... });
-    throw new Error('Not implemented');
+    return this.prisma.task.create({
+      data: { title: input.title, estimation: new Date(input.estimation) },
+    });
   }
 
   /**
