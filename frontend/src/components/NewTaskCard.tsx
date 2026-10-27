@@ -1,26 +1,37 @@
 import { PlusIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
 
+export type FormValue = { title: string; estimation: string };
+
 interface NewTaskCardProps {
-  onCreate: (title: string) => void;
+  onCreate: (formValue: FormValue) => void;
 }
 
 export default function NewTaskCard({ onCreate }: NewTaskCardProps) {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState<string>('');
+  const [estimation, setEstimation] = useState<string>('');
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    if (title.trim() === '') {
+    if (title.trim() === '' && estimation.trim() === '') {
       return;
     }
-    onCreate(title.trim());
+    //onCreate({ estimation, title }); a mesma coisa de baixo, porem, simplificado.
+    onCreate({
+      estimation: estimation,
+      title: title,
+    });
+    //onCreate(estimation);
     setTitle('');
+    setEstimation('');
+    //setEstimation(estimation);
   }
 
   return (
     <section className="card">
       <h2 className="card-title">Nova tarefa</h2>
       <form className="new-task-form" onSubmit={handleSubmit}>
+        {estimation}
         <input
           type="text"
           className="new-task-input"
@@ -28,7 +39,12 @@ export default function NewTaskCard({ onCreate }: NewTaskCardProps) {
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
-        <input type="date" className="new-task-date" />
+        <input
+          type="date"
+          className="new-task-date"
+          value={estimation}
+          onChange={(event) => setEstimation(event.target.value)}
+        />
         <button type="submit" className="primary-button">
           <PlusIcon size={16} weight="bold" />
           Adicionar tarefa

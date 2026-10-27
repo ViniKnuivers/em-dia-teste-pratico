@@ -5,7 +5,7 @@ import PageCard from './components/PageCard';
 import { useState, useEffect } from 'react';
 import { request } from './api/client';
 import type { Task } from './types/task';
-import NewTaskCard from './components/NewTaskCard';
+import NewTaskCard, { type FormValue } from './components/NewTaskCard';
 
 export default function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -14,10 +14,11 @@ export default function App() {
     request<Task[]>('/tasks').then((data) => setTasks(data));
   }, []);
 
-  async function handleCreateTask(title: string) {
+  async function handleCreateTask(formValue: FormValue) {
+    console.log(formValue);
     const newTask = await request<Task>('/tasks', {
       method: 'POST',
-      body: JSON.stringify({ title }),
+      body: JSON.stringify({ estimation: formValue.estimation, title: formValue.title }),
     });
 
     setTasks((prev) => [...prev, newTask]);
@@ -28,7 +29,7 @@ export default function App() {
       <Header />
       <main className="container">
         <PageHeader />
-        <NewTaskCard onCreate={handleCreateTask} />
+        <NewTaskCard onCreate={(value) => handleCreateTask(value)} />
         <PageCard tasks={tasks} />
         <Footer />
       </main>
