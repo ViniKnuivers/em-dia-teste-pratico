@@ -15,7 +15,6 @@ export default function App() {
   }, []);
 
   async function handleCreateTask(formValue: FormValue) {
-    console.log(formValue);
     const newTask = await request<Task>('/tasks', {
       method: 'POST',
       body: JSON.stringify({ estimation: formValue.estimation, title: formValue.title }),

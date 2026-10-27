@@ -270,3 +270,11 @@ body {
   font-weight: 600;
   cursor: pointer;
 }
+
+.task-estimation {
+  color: var(--color-text-muted);
+}
+
+.task-estimation--overdue {
+  color: var(--color-danger);
+}

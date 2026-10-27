@@ -13,7 +13,7 @@ export default function NewTaskCard({ onCreate }: NewTaskCardProps) {
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    if (title.trim() === '' && estimation.trim() === '') {
+    if (title.trim() === '' || estimation.trim() === '') {
       return;
     }
     //onCreate({ estimation, title }); a mesma coisa de baixo, porem, simplificado.
@@ -31,7 +31,6 @@ export default function NewTaskCard({ onCreate }: NewTaskCardProps) {
     <section className="card">
       <h2 className="card-title">Nova tarefa</h2>
       <form className="new-task-form" onSubmit={handleSubmit}>
-        {estimation}
         <input
           type="text"
           className="new-task-input"

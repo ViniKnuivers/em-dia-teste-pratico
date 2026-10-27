@@ -17,7 +17,6 @@ export class TaskService {
   }
 
   async createTask(input: CreateTaskInput): Promise<Task> {
-    console.log(input);
     return this.taskModel.create(input);
   }
 

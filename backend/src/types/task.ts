@@ -2,14 +2,14 @@ export interface Task {
   id: number;
   title: string;
   completed: boolean;
+  estimation: Date;
   createdAt: Date;
   updatedAt: Date;
-  estimation: string;
 }
 
 export interface CreateTaskInput {
   title: string;
-  estimation: Date;
+  estimation: string;
 }
 
 export interface UpdateTaskInput {

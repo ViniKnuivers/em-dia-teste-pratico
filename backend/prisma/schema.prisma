@@ -11,9 +11,9 @@ model Task {
   id        Int      @id @default(autoincrement())
   title     String
   completed Boolean  @default(false)
+  estimation DateTime
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-  estimation DateTime 
 
   @@map("tasks")
 }
