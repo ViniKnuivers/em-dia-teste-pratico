@@ -46,7 +46,16 @@ export class TaskModel {
    * Inverte o campo `completed` de uma tarefa existente.
    */
   async toggle(id: number): Promise<Task> {
-    throw new Error('Not implemented');
+    const task = await this.findById(id);
+
+    if (!task) {
+      throw new Error('Tarefa não encontrada');
+    }
+
+    return this.prisma.task.update({
+      where: { id },
+      data: { completed: !task.completed },
+    });
   }
 
   /**

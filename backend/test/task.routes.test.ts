@@ -25,6 +25,7 @@ describe('rotas de tarefas', () => {
         id: 1,
         title: 'Estudar',
         completed: false,
+        estimation: new Date(),
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -32,6 +33,7 @@ describe('rotas de tarefas', () => {
         id: 2,
         title: 'Trabalhar',
         completed: true,
+        estimation: new Date(),
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -39,6 +41,7 @@ describe('rotas de tarefas', () => {
         id: 3,
         title: 'Limpar a casa',
         completed: true,
+        estimation: new Date(),
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -46,6 +49,7 @@ describe('rotas de tarefas', () => {
         id: 4,
         title: 'Testar a listagem',
         completed: false,
+        estimation: new Date(),
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -74,6 +78,7 @@ describe('rotas de tarefas', () => {
       id: 1,
       title: 'Estudar TypeScript',
       completed: false,
+      estimation: new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -83,7 +88,7 @@ describe('rotas de tarefas', () => {
     const response = await app.inject({
       method: 'POST',
       url: '/tasks',
-      payload: { title: 'Estudar TypeScript' },
+      payload: { title: 'Estudar TypeScript', estimation: '2026-10-29' },
     });
 
     expect(response.statusCode).toBe(201);
@@ -95,7 +100,10 @@ describe('rotas de tarefas', () => {
       }),
     );
 
-    expect(createSpy).toHaveBeenCalledWith({ title: 'Estudar TypeScript' });
+    expect(createSpy).toHaveBeenCalledWith({
+      title: 'Estudar TypeScript',
+      estimation: '2026-10-29',
+    });
   });
 
   it('PATCH /tasks/:id edita uma tarefa', async () => {
@@ -112,7 +120,18 @@ describe('rotas de tarefas', () => {
   });
 
   it('PATCH /tasks/:id/toggle alterna a conclusão de uma tarefa', async () => {
+    const fakeTaskTest = {
+      id: 1,
+      title: 'Estudar TypeScript',
+      completed: false,
+      estimation: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    const toggleSpy = vi.spyOn(TaskModel.prototype, 'toggle').mockResolvedValue(fakeTaskTest);
     const response = await app.inject({ method: 'PATCH', url: '/tasks/1/toggle' });
+
+    expect(toggleSpy).toHaveBeenCalledWith(1);
 
     expect(response.statusCode).toBe(200);
     expect(response.json()).toEqual(

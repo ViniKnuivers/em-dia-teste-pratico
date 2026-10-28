@@ -18,8 +18,9 @@ export class TaskController {
     return this.taskService.updateTask();
   };
 
-  toggle = async (_request: FastifyRequest<{ Params: TaskParams }>) => {
-    return this.taskService.toggleTask();
+  toggle = async (request: FastifyRequest<{ Params: TaskParams }>) => {
+    const id = Number(request.params.id);
+    return this.taskService.toggleTask(id);
   };
 
   remove = async (_request: FastifyRequest<{ Params: TaskParams }>, reply: FastifyReply) => {
