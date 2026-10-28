@@ -23,13 +23,21 @@ export default function App() {
     setTasks((prev) => [...prev, newTask]);
   }
 
+  async function handleToggleTask(id: number) {
+    const toggleTask = await request<Task>(`/tasks/${id}/toggle`, {
+      method: 'PATCH',
+    });
+
+    setTasks((prev) => prev.map((task) => (task.id === toggleTask.id ? toggleTask : task)));
+  }
+
   return (
     <>
       <Header />
       <main className="container">
         <PageHeader />
         <NewTaskCard onCreate={(value) => handleCreateTask(value)} />
-        <PageCard tasks={tasks} />
+        <PageCard tasks={tasks} onToggle={(id) => handleToggleTask(id)} />
         <Footer />
       </main>
     </>
