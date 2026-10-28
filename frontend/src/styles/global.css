@@ -107,7 +107,6 @@ body {
 
 .card-title {
   margin: 0;
-  padding: 24px 24px 16px;
   font-size: 18px;
   font-weight: 600;
 }
@@ -277,4 +276,39 @@ body {
 
 .task-estimation--overdue {
   color: var(--color-danger);
+}
+
+.progress {
+  width: 110px;
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 8px;
+}
+
+.progress-summary {
+  align-items: center;
+  gap: 12px;
+  display: flex;
+}
+
+.progress-text {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 24px 16px;
+  align-items: center;
 }
