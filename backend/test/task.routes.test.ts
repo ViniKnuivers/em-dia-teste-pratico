@@ -107,12 +107,27 @@ describe('rotas de tarefas', () => {
   });
 
   it('PATCH /tasks/:id edita uma tarefa', async () => {
+    const fakeTaskTest = {
+      id: 1,
+      title: 'Estudar TypeScript',
+      completed: false,
+      estimation: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const testEdit = vi.spyOn(TaskModel.prototype, 'update').mockResolvedValue(fakeTaskTest);
+
     const response = await app.inject({
       method: 'PATCH',
       url: '/tasks/2',
-      payload: { title: 'Organizar a mesa de trabalho' },
+      payload: { title: 'Estudar TypeScript', estimation: '2026-10-29' },
     });
 
+    expect(testEdit).toHaveBeenCalledWith(2, {
+      title: 'Estudar TypeScript',
+      estimation: '2026-10-29',
+    });
     expect(response.statusCode).toBe(200);
     expect(response.json()).toEqual(
       expect.objectContaining({ id: expect.any(Number), title: expect.any(String) }),
