@@ -5,6 +5,7 @@
   --color-background: #f6f8f7;
   --color-surface: #ffffff;
   --color-primary: #32745b;
+  --color-secondary: #5e6c65;
   --color-primary-light: #edf5f0;
   --color-danger: #a46b67;
   --color-danger-light: #fbeeed;
@@ -311,4 +312,43 @@ body {
   justify-content: space-between;
   padding: 24px 24px 16px;
   align-items: center;
+}
+
+.card-footer {
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px 16px;
+  align-items: center;
+  font-size: 14px;
+  color: var(--color-secondary);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-background);
+}
+
+.browser-button {
+  color: var(--color-text-muted);
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.browser-button--highlight {
+  color: var(--color-primary);
+  font-weight: 600;
+  background: var(--color-primary-light);
+}
+
+.browse-tabs {
+  display: flex;
+  gap: 12px;
+  padding: 0 24px 16px;
+}
+
+.browser-button--highlight .counting-tab {
+  font-weight: normal;
+  color: var(--color-primary);
+  font-weight: 600;
 }
