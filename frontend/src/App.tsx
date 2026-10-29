@@ -31,6 +31,15 @@ export default function App() {
     setTasks((prev) => prev.map((task) => (task.id === toggleTask.id ? toggleTask : task)));
   }
 
+  async function handleEditTask(id: number, formValue: FormValue) {
+    const editTask = await request<Task>(`/tasks/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ estimation: formValue.estimation, title: formValue.title }),
+    });
+
+    setTasks((prev) => prev.map((task) => (task.id === editTask.id ? editTask : task)));
+  }
+
   async function handleDeleteTask(id: number) {
     await request<Task>(`/tasks/${id}`, {
       method: 'DELETE',
@@ -49,6 +58,7 @@ export default function App() {
           tasks={tasks}
           onToggle={(id) => handleToggleTask(id)}
           onDeleteTask={(id) => handleDeleteTask(id)}
+          onEditTask={(id, formValue) => handleEditTask(id, formValue)}
         />
         <Footer />
       </main>
