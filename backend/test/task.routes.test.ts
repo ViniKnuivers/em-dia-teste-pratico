@@ -140,9 +140,12 @@ describe('rotas de tarefas', () => {
   });
 
   it('DELETE /tasks/:id exclui uma tarefa', async () => {
+    const testDelete = vi.spyOn(TaskModel.prototype, 'delete').mockResolvedValue(undefined);
+
     const response = await app.inject({ method: 'DELETE', url: '/tasks/3' });
 
     expect(response.statusCode).toBe(204);
     expect(response.body).toBe('');
+    expect(testDelete).toHaveBeenCalledWith(3);
   });
 });

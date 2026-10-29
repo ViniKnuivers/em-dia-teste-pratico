@@ -28,5 +28,7 @@ export class TaskService {
     return this.taskModel.toggle(id);
   }
 
-  async deleteTask(): Promise<void> {}
+  async deleteTask(id: number): Promise<void> {
+    await this.taskModel.delete(id);
+  }
 }
