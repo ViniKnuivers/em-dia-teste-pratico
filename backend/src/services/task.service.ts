@@ -1,14 +1,6 @@
 import type { TaskModel } from '../models/task.model.js';
-import type { CreateTaskInput, Task } from '../types/task.js';
+import type { CreateTaskInput, Task, UpdateTaskInput } from '../types/task.js';
 
-const mockTasks: Task[] = [];
-
-/**
- * Regras de negócio das tarefas.
- *
- * Por enquanto todos os métodos devolvem dados mockados e não recebem parâmetros.
- * Ao implementar, receba os dados necessários e delegue a persistência para a TaskModel.
- */
 export class TaskService {
   constructor(private readonly taskModel: TaskModel) {}
 
@@ -20,8 +12,8 @@ export class TaskService {
     return this.taskModel.create(input);
   }
 
-  async updateTask(): Promise<Task> {
-    return { ...mockTasks[1], title: 'Organizar a mesa de trabalho' };
+  async updateTask(id: number, input: UpdateTaskInput): Promise<Task> {
+    return this.taskModel.update(id, input);
   }
 
   async toggleTask(id: number): Promise<Task> {

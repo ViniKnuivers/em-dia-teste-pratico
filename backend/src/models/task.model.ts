@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars -- remova esta linha ao implementar os métodos */
 import type { PrismaClient } from '../database/prisma.js';
 import type { CreateTaskInput, Task, UpdateTaskInput } from '../types/task.js';
 
@@ -38,8 +37,16 @@ export class TaskModel {
    * Atualiza o título de uma tarefa existente.
    */
   async update(id: number, input: UpdateTaskInput): Promise<Task> {
-    // return this.prisma.task.update({ where: { id }, data: ... });
-    throw new Error('Not implemented');
+    const task = await this.findById(id);
+
+    if (!task) {
+      throw new Error('Tarefa não encontrada');
+    }
+
+    return this.prisma.task.update({
+      where: { id },
+      data: { title: input.title, estimation: new Date(input.estimation) },
+    });
   }
 
   /**
