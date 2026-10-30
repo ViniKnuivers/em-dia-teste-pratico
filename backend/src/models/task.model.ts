@@ -62,7 +62,12 @@ export class TaskModel {
    * Remove uma tarefa.
    */
   async delete(id: number): Promise<void> {
-    // await this.prisma.task.delete({ where: { id } });
-    throw new Error('Not implemented');
+    const task = await this.findById(id);
+
+    if (!task) {
+      throw new Error('Tarefa não encontrada');
+    }
+
+    await this.prisma.task.delete({ where: { id } });
   }
 }

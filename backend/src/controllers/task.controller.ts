@@ -23,8 +23,9 @@ export class TaskController {
     return this.taskService.toggleTask(id);
   };
 
-  remove = async (_request: FastifyRequest<{ Params: TaskParams }>, reply: FastifyReply) => {
-    await this.taskService.deleteTask();
+  remove = async (request: FastifyRequest<{ Params: TaskParams }>, reply: FastifyReply) => {
+    const id = Number(request.params.id);
+    await this.taskService.deleteTask(id);
     return reply.code(204).send();
   };
 }
