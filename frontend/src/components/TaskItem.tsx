@@ -4,15 +4,16 @@ import { formatCardDate, isOverdue } from '../utils/date';
 
 interface TaskItemProps {
   task: Task;
+  onToggle: (id: number) => void;
 }
 
-export default function TaskItem({ task }: TaskItemProps) {
+export default function TaskItem({ task, onToggle }: TaskItemProps) {
   const overdue = !task.completed && isOverdue(task.estimation);
 
   return (
     <li className="task-item">
       <label className="checkbox">
-        <input type="checkbox" checked={task.completed} readOnly />
+        <input type="checkbox" checked={task.completed} onChange={() => onToggle(task.id)} />
         <CheckIcon className="checkbox-icon" size={14} weight="bold" />
       </label>
       <span className={task.completed ? 'task-title task-title--done' : 'task-title'}>
