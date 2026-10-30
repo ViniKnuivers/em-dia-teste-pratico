@@ -6,9 +6,10 @@ import { useState } from 'react';
 interface PageCardProps {
   tasks: Task[];
   onToggle: (id: number) => void;
+  onDeleteTask: (id: number) => void;
 }
 
-export default function PageCard({ tasks, onToggle }: PageCardProps) {
+export default function PageCard({ tasks, onToggle, onDeleteTask }: PageCardProps) {
   const [filter, setFilter] = useState<'all' | 'completed' | 'pending'>('all');
 
   const totalTasks = tasks.length;
@@ -74,7 +75,7 @@ export default function PageCard({ tasks, onToggle }: PageCardProps) {
 
       <ul className="task-list">
         {forFilteredTasks.map((task) => (
-          <TaskItem key={task.id} task={task} onToggle={onToggle} />
+          <TaskItem key={task.id} task={task} onToggle={onToggle} onDeleteTask={onDeleteTask} />
         ))}
       </ul>
       <footer className="card-footer">

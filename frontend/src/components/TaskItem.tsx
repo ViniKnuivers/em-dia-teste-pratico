@@ -5,9 +5,10 @@ import { formatCardDate, isOverdue } from '../utils/date';
 interface TaskItemProps {
   task: Task;
   onToggle: (id: number) => void;
+  onDeleteTask: (id: number) => void;
 }
 
-export default function TaskItem({ task, onToggle }: TaskItemProps) {
+export default function TaskItem({ task, onToggle, onDeleteTask }: TaskItemProps) {
   const overdue = !task.completed && isOverdue(task.estimation);
 
   return (
@@ -27,7 +28,12 @@ export default function TaskItem({ task, onToggle }: TaskItemProps) {
       <button type="button" className="icon-button icon-button--edit" aria-label="Editar tarefa">
         <PencilSimpleIcon size={18} />
       </button>
-      <button type="button" className="icon-button icon-button--delete" aria-label="Excluir tarefa">
+      <button
+        type="button"
+        onClick={() => onDeleteTask(task.id)}
+        className="icon-button icon-button--delete"
+        aria-label="Excluir tarefa"
+      >
         <TrashIcon size={18} />
       </button>
     </li>

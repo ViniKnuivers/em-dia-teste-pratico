@@ -31,13 +31,25 @@ export default function App() {
     setTasks((prev) => prev.map((task) => (task.id === toggleTask.id ? toggleTask : task)));
   }
 
+  async function handleDeleteTask(id: number) {
+    await request<Task>(`/tasks/${id}`, {
+      method: 'DELETE',
+    });
+
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+  }
+
   return (
     <>
       <Header />
       <main className="container">
         <PageHeader />
         <NewTaskCard onCreate={(value) => handleCreateTask(value)} />
-        <PageCard tasks={tasks} onToggle={(id) => handleToggleTask(id)} />
+        <PageCard
+          tasks={tasks}
+          onToggle={(id) => handleToggleTask(id)}
+          onDeleteTask={(id) => handleDeleteTask(id)}
+        />
         <Footer />
       </main>
     </>
