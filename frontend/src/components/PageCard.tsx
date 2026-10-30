@@ -18,6 +18,18 @@ export default function PageCard({ tasks, onToggle, onDeleteTask, onEditTask }: 
   const howManyCompleted = tasks.filter((tasks) => tasks.completed).length;
   const howManyPending = tasks.filter((tasks) => !tasks.completed).length;
 
+  const sortedTasks = [...tasks].sort(
+    (a, b) => new Date(b.estimation).getTime() - new Date(a.estimation).getTime(),
+  );
+
+  let taskWord;
+
+  if (howManyCompleted === 1) {
+    taskWord = 'tarefa';
+  } else {
+    taskWord = 'tarefas';
+  }
+
   const isAllActive = 'all' === filter;
   const isCompletedActive = 'completed' === filter;
   const isPendingActive = 'pending' === filter;
@@ -25,11 +37,11 @@ export default function PageCard({ tasks, onToggle, onDeleteTask, onEditTask }: 
   let forFilteredTasks;
 
   if ('all' === filter) {
-    forFilteredTasks = tasks;
+    forFilteredTasks = sortedTasks;
   } else if ('pending' === filter) {
-    forFilteredTasks = tasks.filter((tasks) => !tasks.completed);
+    forFilteredTasks = sortedTasks.filter((tasks) => !tasks.completed);
   } else {
-    forFilteredTasks = tasks.filter((tasks) => tasks.completed);
+    forFilteredTasks = sortedTasks.filter((tasks) => tasks.completed);
   }
 
   const percentage =
@@ -88,7 +100,7 @@ export default function PageCard({ tasks, onToggle, onDeleteTask, onEditTask }: 
       </ul>
       <footer className="card-footer">
         <CheckCircleIcon size={18} />
-        Você já concluiu {howManyCompleted} tarefas. Continue no seu ritmo.
+        Você já concluiu {howManyCompleted} {taskWord}. Continue no seu ritmo.
       </footer>
     </section>
   );
