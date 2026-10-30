@@ -24,8 +24,8 @@ export class TaskService {
     return { ...mockTasks[1], title: 'Organizar a mesa de trabalho' };
   }
 
-  async toggleTask(): Promise<Task> {
-    return { ...mockTasks[0], completed: !mockTasks[0].completed };
+  async toggleTask(id: number): Promise<Task> {
+    return this.taskModel.toggle(id);
   }
 
   async deleteTask(): Promise<void> {}
