@@ -29,7 +29,10 @@ export default function NewTaskCard({ onCreate }: NewTaskCardProps) {
 
   return (
     <section className="card">
-      <h2 className="card-title">Nova tarefa</h2>
+      <div className="card-header">
+        <h2 className="card-title">Nova tarefa</h2>
+      </div>
+
       <form className="new-task-form" onSubmit={handleSubmit}>
         <input
           type="text"
