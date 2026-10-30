@@ -2,14 +2,16 @@ import { CheckCircleIcon } from '@phosphor-icons/react';
 import type { Task } from '../types/task';
 import TaskItem from './TaskItem';
 import { useState } from 'react';
+import type { FormValue } from './NewTaskCard';
 
 interface PageCardProps {
   tasks: Task[];
   onToggle: (id: number) => void;
   onDeleteTask: (id: number) => void;
+  onEditTask: (id: number, formValue: FormValue) => void;
 }
 
-export default function PageCard({ tasks, onToggle, onDeleteTask }: PageCardProps) {
+export default function PageCard({ tasks, onToggle, onDeleteTask, onEditTask }: PageCardProps) {
   const [filter, setFilter] = useState<'all' | 'completed' | 'pending'>('all');
 
   const totalTasks = tasks.length;
@@ -75,7 +77,13 @@ export default function PageCard({ tasks, onToggle, onDeleteTask }: PageCardProp
 
       <ul className="task-list">
         {forFilteredTasks.map((task) => (
-          <TaskItem key={task.id} task={task} onToggle={onToggle} onDeleteTask={onDeleteTask} />
+          <TaskItem
+            key={task.id}
+            task={task}
+            onToggle={onToggle}
+            onDeleteTask={onDeleteTask}
+            onEditTask={onEditTask}
+          />
         ))}
       </ul>
       <footer className="card-footer">
