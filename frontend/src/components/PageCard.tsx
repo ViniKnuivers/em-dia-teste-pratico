@@ -1,7 +1,7 @@
 import { CheckCircleIcon } from '@phosphor-icons/react';
 import type { Task } from '../types/task';
 import TaskItem from './TaskItem';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { FormValue } from './NewTaskCard';
 
 interface PageCardProps {
@@ -15,12 +15,22 @@ export default function PageCard({ tasks, onToggle, onDeleteTask, onEditTask }: 
   const [filter, setFilter] = useState<'all' | 'completed' | 'pending'>('all');
 
   const totalTasks = tasks.length;
-  const howManyCompleted = tasks.filter((tasks) => tasks.completed).length;
-  const howManyPending = tasks.filter((tasks) => !tasks.completed).length;
 
-  const sortedTasks = [...tasks].sort(
-    (a, b) => new Date(b.estimation).getTime() - new Date(a.estimation).getTime(),
-  );
+  const howManyCompleted = useMemo(() => {
+    const taskCompleted = tasks.filter((task) => task.completed);
+    return taskCompleted.length;
+  }, [tasks]);
+
+  const howManyPending = useMemo(() => {
+    const taskPending = tasks.filter((task) => !task.completed);
+    return taskPending.length;
+  }, [tasks]);
+
+  const sortedTasks = useMemo(() => {
+    return [...tasks].sort(
+      (a, b) => new Date(b.estimation).getTime() - new Date(a.estimation).getTime(),
+    );
+  }, [tasks]);
 
   let taskWord;
 
@@ -34,15 +44,17 @@ export default function PageCard({ tasks, onToggle, onDeleteTask, onEditTask }: 
   const isCompletedActive = 'completed' === filter;
   const isPendingActive = 'pending' === filter;
 
-  let forFilteredTasks;
-
-  if ('all' === filter) {
-    forFilteredTasks = sortedTasks;
-  } else if ('pending' === filter) {
-    forFilteredTasks = sortedTasks.filter((tasks) => !tasks.completed);
-  } else {
-    forFilteredTasks = sortedTasks.filter((tasks) => tasks.completed);
-  }
+  const forFilteredTasks = useMemo(() => {
+    let filteredTask;
+    if ('all' === filter) {
+      filteredTask = sortedTasks;
+    } else if ('pending' === filter) {
+      filteredTask = sortedTasks.filter((task) => !task.completed);
+    } else {
+      filteredTask = sortedTasks.filter((task) => task.completed);
+    }
+    return filteredTask;
+  }, [filter, sortedTasks]);
 
   const percentage =
     totalTasks === 0 ? totalTasks : Math.round((howManyCompleted / totalTasks) * 100);
