@@ -1,12 +1,12 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import type { TaskService } from '../services/task.service.js';
-import type { CreateTaskInput, TaskParams, UpdateTaskInput } from '../types/task.js';
+import type { CreateTaskInput, TaskListQuery, TaskParams, UpdateTaskInput } from '../types/task.js';
 
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
-  list = async (_request: FastifyRequest) => {
-    return this.taskService.listTasks();
+  list = async (request: FastifyRequest<{ Querystring: TaskListQuery }>) => {
+    return this.taskService.listTasks(request.query);
   };
 
   create = async (request: FastifyRequest<{ Body: CreateTaskInput }>, reply: FastifyReply) => {

@@ -56,13 +56,17 @@ describe('rotas de tarefas', () => {
     ];
 
     vi.spyOn(TaskModel.prototype, 'findAll').mockResolvedValue(fakeTasks);
+    vi.spyOn(TaskModel.prototype, 'countTasks')
+      .mockResolvedValueOnce(4)
+      .mockResolvedValueOnce(2)
+      .mockResolvedValueOnce(2);
 
     const response = await app.inject({ method: 'GET', url: '/tasks' });
 
     expect(response.statusCode).toBe(200);
-    const tasks = response.json();
-    expect(tasks).toHaveLength(4);
-    for (const task of tasks) {
+    const body = response.json();
+    expect(body.tasks).toHaveLength(4);
+    for (const task of body.tasks) {
       expect(task).toEqual(
         expect.objectContaining({
           id: expect.any(Number),
@@ -71,6 +75,16 @@ describe('rotas de tarefas', () => {
         }),
       );
     }
+    expect(body.total).toBe(4);
+    expect(body.completed).toBe(2);
+    expect(body.pending).toBe(2);
+  });
+  it('GET /tasks?status=pending filtra as pendentes', async () => {
+    const findAllSpy = vi.spyOn(TaskModel.prototype, 'findAll').mockResolvedValue([]);
+    vi.spyOn(TaskModel.prototype, 'countTasks').mockResolvedValue(0);
+    const response = await app.inject({ method: 'GET', url: '/tasks?status=pending' });
+    expect(response.statusCode).toBe(200);
+    expect(findAllSpy).toHaveBeenCalledWith(false);
   });
 
   it('POST /tasks cria uma tarefa', async () => {

@@ -20,3 +20,14 @@ export interface UpdateTaskInput {
 export interface TaskParams {
   id: string;
 }
+
+export interface TaskListQuery {
+  status?: 'all' | 'completed' | 'pending';
+}
+
+export interface TaskListResponse {
+  tasks: Task[];
+  total: number;
+  completed: number;
+  pending: number;
+}
