@@ -10,32 +10,24 @@ import type { CreateTaskInput, Task, UpdateTaskInput } from '../types/task.js';
 export class TaskModel {
   constructor(private readonly prisma: PrismaClient) {}
 
-  /**
-   * Lista todas as tarefas, das mais antigas para as mais recentes.
-   */
-  async findAll(): Promise<Task[]> {
-    return this.prisma.task.findMany({ orderBy: { createdAt: 'asc' } });
+  async findAll(completed?: boolean): Promise<Task[]> {
+    return this.prisma.task.findMany({ where: { completed }, orderBy: { estimation: 'desc' } });
   }
 
-  /**
-   * Busca uma tarefa pelo id. Retorna `null` quando não existir.
-   */
+  async countTasks(completed?: boolean): Promise<number> {
+    return this.prisma.task.count({ where: { completed } });
+  }
+
   async findById(id: number): Promise<Task | null> {
     return this.prisma.task.findUnique({ where: { id } });
   }
 
-  /**
-   * Cria uma tarefa pendente com o título informado.
-   */
   async create(input: CreateTaskInput): Promise<Task> {
     return this.prisma.task.create({
       data: { title: input.title, estimation: new Date(input.estimation) },
     });
   }
 
-  /**
-   * Atualiza o título de uma tarefa existente.
-   */
   async update(id: number, input: UpdateTaskInput): Promise<Task> {
     const task = await this.findById(id);
 
@@ -49,9 +41,6 @@ export class TaskModel {
     });
   }
 
-  /**
-   * Inverte o campo `completed` de uma tarefa existente.
-   */
   async toggle(id: number): Promise<Task> {
     const task = await this.findById(id);
 
@@ -65,9 +54,6 @@ export class TaskModel {
     });
   }
 
-  /**
-   * Remove uma tarefa.
-   */
   async delete(id: number): Promise<void> {
     const task = await this.findById(id);
 
