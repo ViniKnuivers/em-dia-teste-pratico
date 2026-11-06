@@ -6,3 +6,10 @@ export interface Task {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface TaskListResponse {
+  tasks: Task[];
+  total: number;
+  completed: number;
+  pending: number;
+}

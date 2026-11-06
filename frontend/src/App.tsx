@@ -2,42 +2,57 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import PageHeader from './components/PageHeader';
 import PageCard from './components/PageCard';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { request } from './api/client';
-import type { Task } from './types/task';
+import type { TaskListResponse, Task } from './types/task';
 import NewTaskCard, { type FormValue } from './components/NewTaskCard';
 
 export default function App() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [taskList, setTaskList] = useState<TaskListResponse>({
+    tasks: [],
+    total: 0,
+    completed: 0,
+    pending: 0,
+  });
+
+  const [filter, setFilter] = useState<'all' | 'completed' | 'pending'>('all');
+
+  const loadTasks = useCallback(async () => {
+    const data = await request<TaskListResponse>(`/tasks?status=${filter}`);
+    return data;
+  }, [filter]);
 
   useEffect(() => {
-    request<Task[]>('/tasks').then((data) => setTasks(data));
-  }, []);
+    loadTasks().then((data) => setTaskList(data));
+  }, [loadTasks]);
 
   async function handleCreateTask(formValue: FormValue) {
-    const newTask = await request<Task>('/tasks', {
+    await request<Task>('/tasks', {
       method: 'POST',
       body: JSON.stringify({ estimation: formValue.estimation, title: formValue.title }),
     });
 
-    setTasks((prev) => [...prev, newTask]);
+    const data = await loadTasks();
+    setTaskList(data);
   }
 
   async function handleToggleTask(id: number) {
-    const toggleTask = await request<Task>(`/tasks/${id}/toggle`, {
+    await request<Task>(`/tasks/${id}/toggle`, {
       method: 'PATCH',
     });
 
-    setTasks((prev) => prev.map((task) => (task.id === toggleTask.id ? toggleTask : task)));
+    const data = await loadTasks();
+    setTaskList(data);
   }
 
   async function handleEditTask(id: number, formValue: FormValue) {
-    const editTask = await request<Task>(`/tasks/${id}`, {
+    await request<Task>(`/tasks/${id}`, {
       method: 'PATCH',
       body: JSON.stringify({ estimation: formValue.estimation, title: formValue.title }),
     });
 
-    setTasks((prev) => prev.map((task) => (task.id === editTask.id ? editTask : task)));
+    const data = await loadTasks();
+    setTaskList(data);
   }
 
   async function handleDeleteTask(id: number) {
@@ -45,7 +60,8 @@ export default function App() {
       method: 'DELETE',
     });
 
-    setTasks((prev) => prev.filter((task) => task.id !== id));
+    const data = await loadTasks();
+    setTaskList(data);
   }
 
   return (
@@ -55,10 +71,15 @@ export default function App() {
         <PageHeader />
         <NewTaskCard onCreate={(value) => handleCreateTask(value)} />
         <PageCard
-          tasks={tasks}
+          tasks={taskList.tasks}
+          total={taskList.total}
+          completed={taskList.completed}
+          pending={taskList.pending}
           onToggle={(id) => handleToggleTask(id)}
           onDeleteTask={(id) => handleDeleteTask(id)}
           onEditTask={(id, formValue) => handleEditTask(id, formValue)}
+          filter={filter}
+          onChangeFilter={(filter) => setFilter(filter)}
         />
         <Footer />
       </main>
